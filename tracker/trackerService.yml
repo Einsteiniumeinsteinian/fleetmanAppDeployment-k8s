@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-position-tracker
+  labels:
+    name: fleetman-tracker-svc
+  namespace: fleetman
+spec:
+  selector:
+    app: fleetman-tracker
+  type: ClusterIP
+  sessionAffinity: None
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800
+  ports:
+  - name: fleetman-tracker-ports
+    protocol: TCP
+    port: 8080
+    targetPort: 8080

@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  fleetman-webapp-dpm
+  namespace: fleetman
+  labels:
+    app:  webapp
+spec:
+  selector:
+    matchLabels:
+      app: fleetman-webapp
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      name: fleetman-webapp
+      labels:
+        app:  fleetman-webapp
+        tier: frontend
+        version: v1
+    spec:
+      containers:
+      - name:  fleetman-webapp
+        image:  richardchesterwood/k8s-fleetman-webapp-angular:release1
+        ports:
+          - containerPort: 80
+        env:
+           - name: SPRING_PROFILES_ACTIVE
+             value: local-microservice
+        resources:
+          requests:
+            cpu: 1m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 500Mi
+        # livenessProbe:
+        #   tcpSocket:
+        #     port: 80
+        #   initialDelaySeconds: 5
+        #   timeoutSeconds: 5
+        #   successThreshold: 1
+        #   failureThreshold: 3
+        #   periodSeconds: 10
+      restartPolicy: Always

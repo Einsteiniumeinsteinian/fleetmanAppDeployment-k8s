@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-queue
+  labels:
+    name: fleetman-queue-svc
+  namespace: fleetman
+spec:
+  selector:
+    app: fleetman-queue
+  type: ClusterIP
+  sessionAffinity: None
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800
+  ports:
+  - name: fleetman-queue-port
+    protocol: TCP
+    port: 8161
+    targetPort: 8161
+  - name: fleetman-queue-intrnal-port
+    port: 61616

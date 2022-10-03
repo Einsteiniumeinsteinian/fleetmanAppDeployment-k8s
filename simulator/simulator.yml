@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  fleetman-simulator-dpm
+  namespace: fleetman
+  labels:
+    app:  simulator
+spec:
+  selector:
+    matchLabels:
+      app: fleetman-simulator
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      name: fleetman-simulator
+      labels:
+        app:  fleetman-simulator
+        tier: backend
+        version: v1
+    spec:
+      containers:
+      - name:  fleetman-simulator
+        image:  richardchesterwood/k8s-fleetman-position-simulator:release1
+        env:
+           - name: SPRING_PROFILES_ACTIVE
+             value: local-microservice
+        resources:
+          requests:
+            cpu: 1m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 500Mi
+        # livenessProbe:
+        #   tcpSocket:
+        #     port: 80
+        #   initialDelaySeconds: 5
+        #   timeoutSeconds: 5
+        #   successThreshold: 1
+        #   failureThreshold: 3
+        #   periodSeconds: 10
+      restartPolicy: Always
