@@ -30,56 +30,28 @@ create namespace using:
 kubectl apply -f namespace.yml
 ```
 
-2. #### setup application services
+2. #### setup application and corresponding services
+
+queue:
+
+```k8
+kubectl apply -f queue
+```
+
+gateway:
+
+```k8
+kubectl apply -f gateway
+```
+
+tracker:
+
+```k8
+kubectl apply -f tracker
+```
 
 webapp:
 
 ```k8
-kubectl apply -f webapp/webappServices
-```
-
-queue:
-
-```k8
-kubectl apply -f queue/queueServices
-```
-
-gateway:
-
-```k8
-kubectl apply -f gateway/gatewayServices
-```
-
-tracker:
-
-```k8
-kubectl apply -f tracker/tracker
-```
-
-3. #### setup applications
-
-queue:
-
-```k8
-kubectl apply -f queue/queue
-```
-
-gateway:
-
-```k8
-kubectl apply -f gateway/gateway
-```
-
-tracker:
-
-```k8
-kubectl apply -f tracker/tracker
-```
-
-```k8
-kubectl apply -f simulator/simulator
-```
-
-```k8
-kubectl apply -f webapp/webapp
+kubectl apply -f webapp
 ```
